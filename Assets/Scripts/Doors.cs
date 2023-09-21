@@ -1,28 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Doors : MonoBehaviour
 {
     public static Character_Script character;  
+    public HUDManager hudManager;
+    public Score score;
+
+    public Spawn spawnScript;
+    public Transform[] nuevosSpawns;    
+
+   
     public int doorCost;
     public string doorName;
+    public string doorAction;
 
     public bool isBought = false;
     private bool onRange = false;
 
 
     public GameObject body;
-    public GameObject leftDoor;
-    public GameObject rightDoor;
+    //public GameObject leftDoor;
+    //public GameObject rightDoor;
 
-    public Sprite openDoorSpriteL;
-    public Sprite openDoorSpriteR ;
+    //public Sprite openDoorSpriteL;
+    //public Sprite openDoorSpriteR ;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //navMeshSurface = FindObjectOfType<NavMeshSurface>();
+
+        spawnScript = FindObjectOfType<Spawn>(); 
+        hudManager = FindObjectOfType<HUDManager>(); 
+        score = FindObjectOfType<Score>();    
+
+              
     }
 
     // Update is called once per frame
@@ -32,7 +47,8 @@ public class Doors : MonoBehaviour
             if(isBought){
                 //BuyAmmo(wallWeapon);  
             }else{                
-                OpenDoor();  
+                OpenDoor(); 
+                //navmesh.BuildNavMeshAsync();
             }                
         } 
         
@@ -42,33 +58,34 @@ public class Doors : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {          
-            if(isBought){
-                Debug.Log("Door [2500]"); 
-            }else{
-                Debug.Log("Abril Puerta[2000]"); 
+            if(isBought){                
+                
+            }else{                
                 onRange = true;   
-            }
-                   
-              
+                hudManager.ShowBuyInfo(doorAction, doorName, doorCost);
+            }                               
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         onRange = false;      
+        hudManager.HideBuyInfo();    
     }
 
-    public void OpenDoor(){            
+    public void OpenDoor(){  
+        
+        spawnScript.HabilitarNuevosSpawns(nuevosSpawns);
+
+        hudManager.HideBuyInfo();  
+        score.RestaPuntos(doorCost);    
+
         isBought = true;        
-        //transform.child.GetComponent<BoxCollider2D>().enabled = false;   
+
         body.GetComponent<BoxCollider2D>().enabled = false;
-        //GetComponentInChildren<BoxCollider2D>().enabled = false;
-        //transform.Find("Body").GetComponent<BoxCollider2D>().enabled = false;   
-        leftDoor.GetComponent<SpriteRenderer>().sprite = openDoorSpriteL;
-        rightDoor.GetComponent<SpriteRenderer>().sprite = openDoorSpriteR;
-        rightDoor.GetComponent<SpriteRenderer>().flipX = false;
+
+        Destroy(this.gameObject);     
         
     }
 }
 
-//how to disable a child boxcollider in unity?

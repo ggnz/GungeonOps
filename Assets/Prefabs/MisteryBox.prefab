@@ -72,9 +72,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -976731848877364063, guid: f3bafb6e1ad93204ebb2440c0afde28d,
-    type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: -976731848877364063, guid: f3bafb6e1ad93204ebb2440c0afde28d, type: 3}
   m_Color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -219,9 +218,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -5559150632450785296, guid: 3dd3bf5e5dc81e549bad5e774be0bf92,
-    type: 3}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: -5559150632450785296, guid: 3dd3bf5e5dc81e549bad5e774be0bf92, type: 3}
   m_Color: {r: 0.5849056, g: 0.45407555, b: 0.024830889, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -305,8 +303,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 8668597044800091915, guid: f3bafb6e1ad93204ebb2440c0afde28d,
-    type: 3}
+  m_Sprite: {fileID: 8668597044800091915, guid: f3bafb6e1ad93204ebb2440c0afde28d, type: 3}
   m_Color: {r: 0.81960785, g: 0.09019608, b: 0.75686276, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -387,26 +384,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 6888028910134512303}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85dd883533f32734f9d05f426169bee3, type: 3}
+  m_Script: {fileID: 11500000, guid: efe296398fcf5724bb360a85017834f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponScript: {fileID: 0}
-  spriteCaja: {fileID: 6888028911134268454}
-  openBoxColor: {r: 0, g: 1, b: 0.81960785, a: 1}
-  precioCaja: 950
-  nombre: Mistery Box
+  weaponHolder: {fileID: 0}
+  boxHolder: {fileID: 0}
   guns:
-  - {fileID: 668135367328083367, guid: 54190f2d3a5be4340974640f8afcab52, type: 3}
-  - {fileID: 6014195982712411724, guid: 4599b994ad3e9d94bba4bb1c261e4f2b, type: 3}
-  - {fileID: 2886260435343201096, guid: a62ffb27f68831243b3caabe11af6085, type: 3}
-  - {fileID: 5118807934116824223, guid: 7ed99f810527b6340b4550b0a2919647, type: 3}
-  - {fileID: 5894515784809561427, guid: 4ff8d3740e47998448940b026b8d6720, type: 3}
-  boxSpawns: []
-  resultadoCaja: {fileID: 0}
-  oso: {fileID: 5894515784809561427, guid: 4ff8d3740e47998448940b026b8d6720, type: 3}
+  - {fileID: 8153663106831965992, guid: 5a5c360b90ac76645b4741a3dc13aee6, type: 3}
+  - {fileID: 7866665191334397603, guid: 7794d631aa36184468bdc48863c9d8e4, type: 3}
+  - {fileID: 2109116499370881810, guid: 7ff2e8b943cd9464c92e5c2c39fa988b, type: 3}
+  - {fileID: 6983805087037187968, guid: 3ece6266fc4913a43ba9757e1cc3b93e, type: 3}
+  - {fileID: 6983805087037187968, guid: 3ece6266fc4913a43ba9757e1cc3b93e, type: 3}
+  oso: {fileID: 0}
+  boxResult: {fileID: 0}
   buyingWeapon: {fileID: 0}
-  weaponHolder: {fileID: 6888028911411966946}
-  cajaAbierta: 0
+  hudManager: {fileID: 0}
+  score: {fileID: 0}
+  isOpen: 0
+  osoAvailable: 0
+  weaponHolderSprite: {fileID: 0}
+  spriteCaja: {fileID: 0}
+  openBoxColor: {r: 0.30980393, g: 0.30980393, b: 0.30980393, a: 1}
+  closeBoxColor: {r: 0.7529412, g: 0.18039216, b: 0.47843137, a: 1}
 --- !u!1 &6888028910208125825
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,8 +479,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 8668597044800091915, guid: f3bafb6e1ad93204ebb2440c0afde28d,
-    type: 3}
+  m_Sprite: {fileID: 8668597044800091915, guid: f3bafb6e1ad93204ebb2440c0afde28d, type: 3}
   m_Color: {r: 0.81960785, g: 0.09019608, b: 0.75686276, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -564,9 +562,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -976731848877364063, guid: f3bafb6e1ad93204ebb2440c0afde28d,
-    type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: -976731848877364063, guid: f3bafb6e1ad93204ebb2440c0afde28d, type: 3}
   m_Color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -650,8 +647,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5171906366706432647, guid: f3bafb6e1ad93204ebb2440c0afde28d,
-    type: 3}
+  m_Sprite: {fileID: 5171906366706432647, guid: f3bafb6e1ad93204ebb2440c0afde28d, type: 3}
   m_Color: {r: 1, g: 0, b: 0.9137255, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -738,9 +734,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 2578478001402630374, guid: f3bafb6e1ad93204ebb2440c0afde28d,
-    type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 2578478001402630374, guid: f3bafb6e1ad93204ebb2440c0afde28d, type: 3}
   m_Color: {r: 1, g: 0.23113209, b: 0.5564647, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -824,8 +819,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5171906366706432647, guid: f3bafb6e1ad93204ebb2440c0afde28d,
-    type: 3}
+  m_Sprite: {fileID: 5171906366706432647, guid: f3bafb6e1ad93204ebb2440c0afde28d, type: 3}
   m_Color: {r: 1, g: 0, b: 0.9137255, a: 1}
   m_FlipX: 1
   m_FlipY: 0

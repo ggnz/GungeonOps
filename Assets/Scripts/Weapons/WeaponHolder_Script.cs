@@ -5,99 +5,77 @@ using UnityEngine;
 public class WeaponHolder_Script : MonoBehaviour
 {
     public Character_Script character;
-    public static Weapon_Script weapon;
-    public static WeaponHolder_Script Instance;
-    public int selectedWeapon = 0;
 
-    // Start is called before the first frame update
+    public int selectedWeapon = 0;
+    public Weapon_Script primaryWeapon;
+    public Weapon_Script secondaryWeapon;
+
     void Start()
-    {        
+    {         
         SelectWeapon();
-        Instance = this;
+
+        primaryWeapon = transform.GetChild(0).GetComponent<Weapon_Script>();
+        secondaryWeapon = transform.GetChild(1).GetComponent<Weapon_Script>();       
     }
 
-    // Update is called once per frame
     void Update()
-    {
+    {     
         int previousSelectedWeapon = selectedWeapon;
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)        
+
+        float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scrollWheel != 0f)
         {
-            if (selectedWeapon >= transform.childCount - 1){
-                selectedWeapon = 0;
-            }               
-            else{
-                selectedWeapon++;
-            }
-                
+            selectedWeapon = (selectedWeapon + (scrollWheel > 0f ? -1 : 1) + transform.childCount) % transform.childCount;
         }
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
-        {
-            if (selectedWeapon <= 0 ){
-                selectedWeapon = transform.childCount - 1;
-            }                
-            else{
-                selectedWeapon--;
-            }
-            
-        }
-            
+
         if (previousSelectedWeapon != selectedWeapon )
         {
             SelectWeapon();
-        } 
-        
-   
+            primaryWeapon = transform.GetChild(selectedWeapon).GetComponent<Weapon_Script>();
+            secondaryWeapon = transform.GetChild(previousSelectedWeapon).GetComponent<Weapon_Script>();          
+        }         
     }
 
-    public void EquipWeapon(GameObject buyingWeapon){                 //, string nombre        
-        int i = 0;
-        foreach (Transform weapon in transform)
-        {    
-            if (i == selectedWeapon){   //si el arma esta equipada entonces...             
-                //destruye el arma   
-                Destroy(weapon.gameObject);          
-
-                //crea y posiciona el nuevo arma   
-                GameObject nuevaArma = Instantiate(buyingWeapon, character.transform.position, transform.rotation * Quaternion.Euler (0f, 0f, 0f)) as GameObject; 
-                nuevaArma.transform.parent = this.transform;               
-                nuevaArma.transform.SetSiblingIndex(selectedWeapon); 
-                
-                
-                //activa el nuevo arma
-                nuevaArma.gameObject.SetActive(true);   
-                
-                //cambia el nombre para que no aparezca el "(clone)"
-                nuevaArma.name = buyingWeapon.name;  
-                                                                       
-            }
-            i++; //revisa el siguiente arma           
+    public void EquipWeapon(Weapon_Script buyingWeapon)
+    {
+        // Verificar si ya se tiene un arma equipada
+        if (primaryWeapon != null)
+        {
+            // Si hay un arma equipada, reemplazarla
+            Transform selectedWeaponTransform = transform.GetChild(selectedWeapon);
+            Destroy(selectedWeaponTransform.gameObject);
         }
 
-
-           
+        Weapon_Script nuevaArma = Instantiate(buyingWeapon, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, 0f)) as Weapon_Script;
+        nuevaArma.transform.parent = transform;
+        nuevaArma.transform.SetSiblingIndex(selectedWeapon);
+        nuevaArma.gameObject.SetActive(true);
+        nuevaArma.name = buyingWeapon.name;
+        primaryWeapon = nuevaArma; // Ahora primaryWeapon será la nueva arma comprada
     }
 
     void SelectWeapon ()
-    {
-        int i = 0;
-        foreach (Transform weapon in transform)
-        {    
-            if (i == selectedWeapon){
-                weapon.gameObject.SetActive(true); //si el arma es la equipada la Activa
-                
-            }
-             
-            else{
-                weapon.gameObject.SetActive(false);//si el arma NO es la equipada la Desactiva
-            }
-            i++;
-                    
+    {       
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Transform weapon = transform.GetChild(i);
+            weapon.gameObject.SetActive(i == selectedWeapon);
         }
     }
 
-  
-    
+    public void RecargarMaximo()
+    {
+        primaryWeapon.FillAmmo();
+        secondaryWeapon.FillAmmo();
+    }
+
+    public bool HasWeapon(Weapon_Script weapon) {
+        return primaryWeapon == weapon || secondaryWeapon == weapon;
+    }
+
+    public void RechargeMaxAmmo(Weapon_Script weapon) {
+        weapon.FillAmmo();    
+        
+    }
 }
-
-
-//how to drop a child for its parent unity?

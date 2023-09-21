@@ -6,15 +6,16 @@ TagManager:
   tags:
   - Bala
   - Enemy
+  - Barricade
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Walkable
   - Water
   - UI
-  - 
-  - 
+  - Walls
+  - NoCollision
   - 
   - 
   - 

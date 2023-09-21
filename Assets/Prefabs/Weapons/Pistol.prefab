@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668135367316494664}
   m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: 0.1561267, y: 0.003999059, z: 1}
+  m_LocalPosition: {x: 1.81, y: 0.6, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &668135367328083366
 Transform:
   m_ObjectHideFlags: 0
@@ -57,8 +57,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668135367328083367}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.367, y: -0.319, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 668135367316494667}
@@ -74,25 +74,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 668135367328083367}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8100fbf8e0b3cf848b03edc92022c9c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 55398032262b80d47b4ba51a945dc3a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shot: {fileID: 322941277354079381, guid: efc232eb550cd264f9c89344bf9cae2e, type: 3}
-  speed: {fileID: 0}
-  doubleTap: {fileID: 0}
+  weaponName: M1911
+  weaponCost: 750
+  reloadTime: 2
+  bulletPrefab: {fileID: 5607074322930184045, guid: 791797e739536d94fad270ab5fad9da4, type: 3}
   firePoint: {fileID: 668135367316494667}
-  reloadBar: {fileID: 0}
-  nombreArma: Pistol
-  cd: 0.28
-  tiempoRecarga: 2
-  balas: 8
-  balasReserva: 80
-  ammoText: {fileID: 0}
-  ammoResText: {fileID: 0}
-  damage: 20
-  alcance: 5
-  speedBala: 15
   bulletForce: 20
+  bulletDamage: 20
+  ammoMagazine: 8
+  ammoStock: 80
+  fireRate: 2
 --- !u!212 &668135367328083360
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -134,12 +128,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 5853bdfefb7ea4dc1ab236afe076eea9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5ac3c55af9e85d84aa3e2c8f477890f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 8.1, y: 4.06}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

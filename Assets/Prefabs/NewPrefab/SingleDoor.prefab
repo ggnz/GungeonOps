@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5950211037862427054}
   - component: {fileID: 5950211037862427055}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5950211038280490740}
   - component: {fileID: 5950211038280490741}
   - component: {fileID: 5950211038280490742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SingleDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,14 +156,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c43014dc3a1394f8f8e371ef6cc964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hudManager: {fileID: 0}
+  score: {fileID: 0}
+  spawnScript: {fileID: 0}
+  nuevosSpawns: []
   doorCost: 1000
   doorName: Puerta
+  doorAction: 
   isBought: 0
   body: {fileID: 5950211038586217282}
-  leftDoor: {fileID: 5950211037862427040}
-  rightDoor: {fileID: 5950211038586217282}
-  openDoorSpriteL: {fileID: -6457546190256652239, guid: 3dd3bf5e5dc81e549bad5e774be0bf92, type: 3}
-  openDoorSpriteR: {fileID: -5465439599399252808, guid: 3dd3bf5e5dc81e549bad5e774be0bf92, type: 3}
 --- !u!1 &5950211038586217282
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +176,7 @@ GameObject:
   - component: {fileID: 5950211038586217295}
   - component: {fileID: 5950211038586217280}
   - component: {fileID: 5950211038586217281}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ' Body'
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: eb6e07b7c7f6876478fa40e16206c350, type: 3}
   m_Color: {r: 0.990566, g: 0.97892606, b: 0.032707386, a: 1}
   m_FlipX: 0
@@ -99,15 +99,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55398032262b80d47b4ba51a945dc3a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hudManager: {fileID: 0}
   currentAmmo: 0
+  currentAmmoStock: 0
+  nombreArma: 
+  costoArma: 
   isReloading: 0
   reloadTime: 1.8
   bulletPrefab: {fileID: 5607074322930184045, guid: 791797e739536d94fad270ab5fad9da4, type: 3}
   firePoint: {fileID: 2109116500188629570}
   bulletForce: 20
-  bulletDamage: 20
+  bulletDamage: 30
   ammoMagazine: 20
   ammoStock: 120
+  isFullAmmo: 0
   fireRate: 0.1
 --- !u!114 &2109116499370881811
 MonoBehaviour:
