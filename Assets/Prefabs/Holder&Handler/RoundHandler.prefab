@@ -47,4 +47,6 @@ MonoBehaviour:
   spawnHandler: {fileID: 0}
   hudManager: {fileID: 0}
   timeBetweenRounds: 5
-  aumentoVidaRonda: 100
+  aumentoVidaRonda: 10
+  maxEnemigosporRonda: 6
+  vidaEnemigo: 100

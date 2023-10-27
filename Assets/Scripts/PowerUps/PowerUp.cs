@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    public Score score;
+    private Score score;
     public enum PowerUps
     {
         DoublePoints,
@@ -14,41 +14,44 @@ public class PowerUp : MonoBehaviour
         BonusPoints,
         MaxAmmo
 
-
-
-
     } public PowerUps powerUp;   
 
     private PowerUpHandler powerUpHandler;
 
     public Sprite logo;
 
-    public HUDManager hudManager;
+    private HUDManager hudManager;
 
-    public WeaponHolder_Script weaponHolder;
+    private WeaponHolder_Script weaponHolder;
 
-    public Spawn spawn;
- 
+    private Spawn spawn; 
 
-    public Renderer objectRenderer;
+    private Renderer objectRenderer;
     public float destroyTime = 12f;
     public float fadeDuration = 3f;
 
     public float powerUpEffectDuration = 30f;
 
+    public Camera_Script cam; 
 
-    public void Start(){
-        objectRenderer = FindObjectOfType<Renderer>(); 
+
+    public ParticleSystem explosionParticles;  
+
+
+    public void Start(){     
+        objectRenderer = GetComponent<Renderer>();   
         score = FindObjectOfType<Score>(); 
         weaponHolder = FindObjectOfType<WeaponHolder_Script>(); 
         spawn = FindObjectOfType<Spawn>(); 
         powerUpHandler = FindObjectOfType<PowerUpHandler>();
         hudManager = FindObjectOfType<HUDManager>(); 
+        cam = FindObjectOfType<Camera_Script>();
     }
 
     void Awake()
     {
-        StartCoroutine(DestroyAfterDelay(destroyTime));        
+        StartCoroutine(DestroyAfterDelay(destroyTime)); 
+        explosionParticles.Play();       
     }
 
     private IEnumerator DestroyAfterDelay(float delay)
@@ -59,6 +62,7 @@ public class PowerUp : MonoBehaviour
 
     private IEnumerator FadeOut(float duration)
     {
+        explosionParticles.Stop();       
         float startTime = Time.time;
         Color startColor = objectRenderer.material.color;
 
@@ -78,9 +82,6 @@ public class PowerUp : MonoBehaviour
 
         Destroy(gameObject);
     }
-
-   
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -141,14 +142,14 @@ public class PowerUp : MonoBehaviour
         hudManager.AddPowerUpLogo(logo);
     }  
 
-    public void Nuke(){        
+    public void Nuke(){ 
+        cam.StartShake(1.5f, 0.03f);       
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
     
         foreach (GameObject enemy in enemies) {
-            Enemy_Script enemyScript = enemy.GetComponent<Enemy_Script>();  
-            enemyScript.IsDead();
-            //Destroy(enemy);
-            ///spawn.DisminuirEnemigosVivos();
+            Enemy_Script enemyScript = enemy.GetComponent<Enemy_Script>();                     
+            enemyScript.StartCoroutine(enemyScript.IsDeadNuke());           
+    
         }
 
         score.SumaPuntos(500); // Aumenta 500 cada 5 rondas

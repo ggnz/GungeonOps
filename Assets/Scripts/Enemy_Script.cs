@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy_Script : MonoBehaviour
+public abstract class Enemy_Script : MonoBehaviour
 {  
+    private bool ignorePlayer = false;
+
+
     public Score score;
     public Transform player;
     public NavMeshAgent agente;
-    public Barricade barricade;
+    public Barricade barricade = null;
     public PowerUpHandler powerUpHandler;
     public Spawn spawn;
 
@@ -21,7 +24,7 @@ public class Enemy_Script : MonoBehaviour
     public int attackDamage = 10; // Daño del ataque.
     
     private float timeSinceLastAttack = 0f;
-    private bool isAttacking = false;
+    protected bool isAttacking = false;
     public float attackCooldown = 2f;
 
     public int currentHealth;
@@ -31,8 +34,18 @@ public class Enemy_Script : MonoBehaviour
 
     public Color lowHealthColor = Color.red; // Color para cuando la vida es 1
 
-    private Renderer enemyRenderer;
-    private Color originalColor;
+    protected Renderer enemyRenderer;
+    protected Color originalColor;
+
+
+    public Transform targetToChase;
+
+
+    public ParticleSystem explosionParticles;   
+    public ParticleSystem deadParticles; 
+
+
+ 
 
     public void Start(){ 
         enemyRenderer = GetComponent<Renderer>();
@@ -43,17 +56,26 @@ public class Enemy_Script : MonoBehaviour
         score = FindObjectOfType<Score>(); 
         player = GameObject.FindGameObjectWithTag("Player").transform;           
         
+
+        
         agente = GetComponent<NavMeshAgent>();
         agente.updateRotation = false;
         agente.updateUpAxis = false;
+        agente.speed = moveSpeed;
+
+
+        targetToChase = player;
     }
 
     public void Awake(){
         currentHealth = maxHealth;        
     }
 
-    private void Update()
-    {       
+    protected virtual void Update()
+    {     
+
+        agente.SetDestination(targetToChase.position);
+          
         //Efecto visual para Instakill
         if (powerUpHandler.isInsta)
         {
@@ -64,7 +86,14 @@ public class Enemy_Script : MonoBehaviour
             enemyRenderer.material.color = originalColor;
         }
 
-        agente.SetDestination(player.position);
+        if (targetToChase != null)
+        {
+            Vector3 direction = targetToChase.position - transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 5 * Time.deltaTime);
+        }
+        
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);        
 
@@ -87,27 +116,20 @@ public class Enemy_Script : MonoBehaviour
         }             
     }  
 
-    private void AttackPlayer()
-    {        
-        isAttacking = true;        
-        if (player != null)
-        {
-            player.GetComponent<Character_Script>().takeDamage();
-        }
+    protected abstract void AttackPlayer(); 
 
-        StartCoroutine(ResetAttackState());        
-    }
-    private IEnumerator ResetAttackState()
+    protected  IEnumerator ResetAttackState()
     {
         yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;
-    }  
+    } 
     
 ////////////////////////////////////////////////////////////////////////////////////////
     
 
     public void ReduceHealth(int damage)
     {
+        explosionParticles.Play();
         if(powerUpHandler.isInsta){ //Efecto para Instakill
             IsDead();            
         }else{
@@ -120,13 +142,23 @@ public class Enemy_Script : MonoBehaviour
         
         
     }
-    public void IsDead()
-    {        
+    public virtual void IsDead()
+    {         
         score.SumaPuntos(puntosPorKill); 
         DropPowerUp();            
         Destroy(this.gameObject); 
         spawn.DisminuirEnemigosVivos();          
           
+    }
+
+    public IEnumerator IsDeadNuke()
+    {    
+        deadParticles.Play();
+
+        yield return new WaitForSeconds(1f); // Espera durante 2 segundos
+
+        Destroy(this.gameObject); 
+        spawn.DisminuirEnemigosVivos(); 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -163,6 +195,54 @@ public class Enemy_Script : MonoBehaviour
         
     }
 
+    public void StopChasingPlayerTemporarily(float stopTime)
+    {
+        if (!ignorePlayer)
+        {
+            ignorePlayer = true; // Ignora al jugador temporalmente.
+
+            // Desactiva el agente de navegación.
+            agente.isStopped = true;
+
+            // Invoca una función para reanudar el seguimiento después de 'stopTime' segundos.
+            Invoke("ResumeChasingPlayer", stopTime);
+        }
+    }
+
+    private void ResumeChasingPlayer()
+    {
+        ignorePlayer = false; // Vuelve a seguir al jugador.
+        agente.isStopped = false; // Activa el agente de navegación.
+    }
+
+
+    //Mono
+
+    public void ChangeTargetTemporarily(Transform newTarget, float changeTime)
+    {
+        if (newTarget != null)
+        {
+            
+            // Cambia el objetivo que sigue el agente de navegación.
+            targetToChase = newTarget;
+
+            // Desactiva el agente de navegación temporalmente.
+            //agente.isStopped = true;
+
+            // Invoca una función para restaurar el objetivo y reanudar el seguimiento después de 'changeTime' segundos.
+            Invoke("ResumeChasingOriginalTarget", changeTime);
+        }
+    }
+
+    private void ResumeChasingOriginalTarget()
+    {
+        // Reactiva el agente de navegación.
+        //agente.isStopped = false;     
+        // Vuelve a seguir al jugador.
+        targetToChase = player;
+        
+    }
+    
     
 
 }

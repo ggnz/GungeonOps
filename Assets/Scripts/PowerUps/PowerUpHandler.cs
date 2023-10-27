@@ -5,7 +5,7 @@ using UnityEngine;
 public class PowerUpHandler : MonoBehaviour
 {
     public GameObject[] powerUpPrefabs;
-    public float probabilityToSpawnPowerUp = 0.2f;
+    public float probabilityToSpawnPowerUp = 0.02f;
     public Score score;
     public HUDManager hudManager;
 
